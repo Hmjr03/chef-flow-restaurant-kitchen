@@ -1,0 +1,326 @@
+/* =========================================================
+   ChefFlow - Global Styles
+   ========================================================= */
+
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+
+/* =========================================================
+   Navigation
+   ========================================================= */
+
+.chef-navbar {
+    background-color: #171717;
+}
+
+.brand-icon {
+    margin-right: 0.25rem;
+}
+
+.chef-navbar .navbar-brand {
+    letter-spacing: -0.3px;
+}
+
+.chef-navbar .nav-link {
+    transition: color 0.2s ease;
+}
+
+.chef-navbar .nav-link:hover {
+    color: #ffc107;
+}
+
+
+/* =========================================================
+   Hero
+   ========================================================= */
+
+.hero-section {
+    background:
+        linear-gradient(
+            135deg,
+            #f8f9fa 0%,
+            #fff8df 100%
+        );
+}
+
+.hero-section h1 {
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+
+.hero-section .lead {
+    max-width: 680px;
+}
+
+
+/* =========================================================
+   Dashboard Card
+   ========================================================= */
+
+.dashboard-card {
+    overflow: hidden;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 20px;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background-color: #171717;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ffc107;
+}
+
+.dashboard-card-body {
+    padding: 1rem 1.25rem;
+}
+
+.mini-stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.mini-stat:last-child {
+    border-bottom: 0;
+}
+
+.mini-stat span {
+    color: #6c757d;
+}
+
+.mini-stat strong {
+    font-size: 1.4rem;
+}
+
+
+/* =========================================================
+   Feature Cards
+   ========================================================= */
+
+.feature-card {
+    height: 100%;
+    padding: 1.75rem;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.feature-icon {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+
+/* =========================================================
+   Call To Action
+   ========================================================= */
+
+.cta-card {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   Search
+   ========================================================= */
+
+.search-card {
+    padding: 1.25rem;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+}
+
+.search-card .form-control {
+    border-right: 0;
+}
+
+.search-card .form-control:focus {
+    border-color: #212529;
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   Dish Cards
+   ========================================================= */
+
+.dish-card {
+    overflow: hidden;
+    height: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dish-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.dish-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background-color: #fafafa;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.dish-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   Content Cards
+   ========================================================= */
+
+.content-card {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+}
+
+
+/* =========================================================
+   Cook Mini Cards
+   ========================================================= */
+
+.cook-mini-card {
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   Empty States
+   ========================================================= */
+
+.empty-state {
+    background-color: #ffffff;
+    border: 1px dashed #ced4da;
+    border-radius: 16px;
+}
+
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+.btn {
+    font-weight: 600;
+}
+
+.btn-warning {
+    color: #171717;
+}
+
+.btn-warning:hover {
+    color: #171717;
+}
+
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+footer {
+    background-color: #ffffff;
+}
+
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+    .chef-navbar .navbar-nav {
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .hero-section {
+        text-align: center;
+    }
+
+    .hero-section .lead {
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .dashboard-card {
+        margin-top: 1rem;
+    }
+
+    .dish-card-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    footer {
+        text-align: center;
+    }
+}
+
+
+/* =========================================================
+   Accessibility
+   ========================================================= */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(255, 193, 7, 0.5);
+    outline-offset: 2px;
+}
