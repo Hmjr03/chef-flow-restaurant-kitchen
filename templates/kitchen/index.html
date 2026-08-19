@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}ChefFlow | Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero-section py-5">
+  <div class="container py-4">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <span class="badge text-bg-warning mb-3">
+          Restaurant Kitchen Management
+        </span>
+
+        <h1 class="display-4 fw-bold mb-3">
+          Organize sua cozinha.
+          <span class="text-warning">Sirva melhor.</span>
+        </h1>
+
+        <p class="lead text-secondary mb-4">
+          O ChefFlow é uma plataforma Django para gestão de pratos,
+          ingredientes, cozinheiros e tipos de pratos em uma cozinha
+          profissional.
+        </p>
+
+        {% if user.is_authenticated %}
+          <a
+            href="/admin/"
+            class="btn btn-dark btn-lg px-4"
+          >
+            Abrir painel
+          </a>
+        {% else %}
+          <a
+            href="{% url 'login' %}"
+            class="btn btn-dark btn-lg px-4"
+          >
+            Entrar no sistema
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="col-lg-5">
+        <div class="dashboard-card shadow-sm">
+          <div class="dashboard-card-header">
+            <span>ChefFlow Dashboard</span>
+            <span class="status-dot"></span>
+          </div>
+
+          <div class="dashboard-card-body">
+            <div class="mini-stat">
+              <span>Pratos</span>
+              <strong>{{ dish_count }}</strong>
+            </div>
+
+            <div class="mini-stat">
+              <span>Cozinheiros</span>
+              <strong>{{ cook_count }}</strong>
+            </div>
+
+            <div class="mini-stat">
+              <span>Ingredientes</span>
+              <strong>{{ ingredient_count }}</strong>
+            </div>
+
+            <div class="mini-stat">
+              <span>Tipos de prato</span>
+              <strong>{{ dish_type_count }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="text-warning fw-bold text-uppercase small">
+        Overview
+      </span>
+
+      <h2 class="fw-bold mt-2">
+        Sua cozinha em um só lugar
+      </h2>
+
+      <p class="text-secondary">
+        Acompanhe os principais recursos do ChefFlow.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card h-100">
+          <div class="feature-icon">🍽️</div>
+          <h3 class="h5 fw-bold">Pratos</h3>
+          <p class="text-secondary mb-0">
+            Gerencie o cardápio e mantenha todas as informações dos pratos
+            organizadas.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card h-100">
+          <div class="feature-icon">👨‍🍳</div>
+          <h3 class="h5 fw-bold">Cozinheiros</h3>
+          <p class="text-secondary mb-0">
+            Controle a equipe da cozinha e acompanhe a experiência de cada
+            profissional.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card h-100">
+          <div class="feature-icon">🥕</div>
+          <h3 class="h5 fw-bold">Ingredientes</h3>
+          <p class="text-secondary mb-0">
+            Organize ingredientes e saiba em quais pratos eles são utilizados.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="feature-card h-100">
+          <div class="feature-icon">📋</div>
+          <h3 class="h5 fw-bold">Categorias</h3>
+          <p class="text-secondary mb-0">
+            Estruture o cardápio por tipos de pratos para facilitar a gestão.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="cta-card p-4 p-md-5 text-center">
+      <h2 class="fw-bold mb-3">
+        Gestão simples para uma cozinha eficiente.
+      </h2>
+
+      <p class="text-secondary mb-4">
+        ChefFlow combina Django, autenticação, relacionamentos entre modelos
+        e uma interface moderna para resolver um problema real.
+      </p>
+
+      {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}" class="btn btn-warning px-4">
+          Começar agora
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

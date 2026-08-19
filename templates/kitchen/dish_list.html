@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Pratos | ChefFlow{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+  <div class="container">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between
+                align-items-md-center gap-3 mb-4">
+
+      <div>
+        <span class="text-warning fw-bold text-uppercase small">
+          Kitchen
+        </span>
+
+        <h1 class="display-6 fw-bold mb-1">
+          Pratos
+        </h1>
+
+        <p class="text-secondary mb-0">
+          Consulte e pesquise os pratos cadastrados.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="search-card mb-4">
+
+      <form method="get">
+
+        <div class="input-group">
+
+          <input
+            type="search"
+            name="q"
+            value="{{ query }}"
+            class="form-control form-control-lg"
+            placeholder="Pesquisar por nome, descrição, categoria..."
+            aria-label="Pesquisar pratos"
+          >
+
+          <button
+            type="submit"
+            class="btn btn-dark px-4"
+          >
+            Pesquisar
+          </button>
+
+        </div>
+
+      </form>
+
+      {% if query %}
+        <div class="mt-3">
+          <span class="text-secondary">
+            Resultados para:
+          </span>
+
+          <strong>
+            "{{ query }}"
+          </strong>
+
+          <a
+            href="{% url 'kitchen:dish-list' %}"
+            class="ms-2"
+          >
+            Limpar
+          </a>
+        </div>
+      {% endif %}
+
+    </div>
+
+    {% if dishes %}
+
+      <div class="row g-4">
+
+        {% for dish in dishes %}
+
+          <div class="col-md-6 col-xl-4">
+
+            <article class="dish-card h-100">
+
+              <div class="dish-card-top">
+                <span class="badge text-bg-warning">
+                  {{ dish.dish_type.name }}
+                </span>
+
+                <span class="dish-price">
+                  € {{ dish.price }}
+                </span>
+              </div>
+
+              <div class="p-4">
+
+                <h2 class="h4 fw-bold mb-2">
+                  {{ dish.name }}
+                </h2>
+
+                <p class="text-secondary">
+                  {{ dish.description|truncatewords:25 }}
+                </p>
+
+                <div class="mb-3">
+
+                  {% for ingredient in dish.ingredients.all|slice:":4" %}
+                    <span class="badge bg-light text-dark border me-1 mb-1">
+                      {{ ingredient.name }}
+                    </span>
+                  {% empty %}
+                    <span class="text-secondary small">
+                      Nenhum ingrediente cadastrado.
+                    </span>
+                  {% endfor %}
+
+                </div>
+
+                <a
+                  href="{% url 'kitchen:dish-detail' dish.pk %}"
+                  class="btn btn-outline-dark"
+                >
+                  Ver detalhes
+                </a>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        {% endfor %}
+
+      </div>
+
+    {% else %}
+
+      <div class="empty-state text-center py-5">
+
+        <div class="display-4 mb-3">
+          🍽️
+        </div>
+
+        <h2 class="h4 fw-bold">
+          Nenhum prato encontrado
+        </h2>
+
+        <p class="text-secondary">
+          {% if query %}
+            Não encontramos pratos para sua pesquisa.
+          {% else %}
+            Ainda não existem pratos cadastrados.
+          {% endif %}
+        </p>
+
+      </div>
+
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

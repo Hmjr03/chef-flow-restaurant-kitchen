@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}{{ dish.name }} | ChefFlow{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+  <div class="container">
+
+    <a
+      href="{% url 'kitchen:dish-list' %}"
+      class="text-decoration-none text-secondary"
+    >
+      ← Voltar para pratos
+    </a>
+
+    <div class="row g-5 mt-2">
+
+      <div class="col-lg-8">
+
+        <span class="badge text-bg-warning mb-3">
+          {{ dish.dish_type.name }}
+        </span>
+
+        <h1 class="display-5 fw-bold">
+          {{ dish.name }}
+        </h1>
+
+        <div class="display-6 fw-bold text-warning mb-4">
+          € {{ dish.price }}
+        </div>
+
+        <div class="content-card p-4 mb-4">
+
+          <h2 class="h4 fw-bold mb-3">
+            Sobre o prato
+          </h2>
+
+          <p class="text-secondary mb-0">
+            {{ dish.description }}
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-4">
+
+        <div class="content-card p-4 mb-4">
+
+          <h2 class="h5 fw-bold mb-3">
+            Ingredientes
+          </h2>
+
+          <ul class="list-group list-group-flush">
+
+            {% for ingredient in dish.ingredients.all %}
+
+              <li class="list-group-item px-0">
+                {{ ingredient.name }}
+              </li>
+
+            {% empty %}
+
+              <li class="list-group-item px-0 text-secondary">
+                Nenhum ingrediente cadastrado.
+              </li>
+
+            {% endfor %}
+
+          </ul>
+
+        </div>
+
+        <div class="content-card p-4">
+
+          <h2 class="h5 fw-bold mb-3">
+            Equipe responsável
+          </h2>
+
+          {% for cook in dish.cooks.all %}
+
+            <div class="cook-mini-card mb-2">
+
+              <strong>
+                {{ cook.get_full_name|default:cook.username }}
+              </strong>
+
+              <small class="d-block text-secondary">
+                {{ cook.years_of_experience }}
+                ano{{ cook.years_of_experience|pluralize }}
+                de experiência
+              </small>
+
+            </div>
+
+          {% empty %}
+
+            <p class="text-secondary mb-0">
+              Nenhum cozinheiro associado.
+            </p>
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+{% endblock %}
