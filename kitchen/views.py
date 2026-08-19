@@ -1,125 +1,165 @@
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views import generic
 
-from kitchen.models import Cook, Dish, DishType, Ingredient
-
-
-def index(request):
-    """Display the ChefFlow dashboard."""
-
-    context = {
-        "dish_count": Dish.objects.count(),
-        "dish_type_count": DishType.objects.count(),
-        "cook_count": Cook.objects.count(),
-        "ingredient_count": Ingredient.objects.count(),
-    }
-
-    return render(request, "kitchen/index.html", context)
-
-
-@login_required
-def dish_list(request):
-    """Display all dishes with optional search."""
-
-    query = request.GET.get("q", "").strip()
-
-    dishes = Dish.objects.select_related("dish_type").prefetch_related(
-        "ingredients",
-        "cooks",
-    )
-
-    if query:
-        dishes = dishes.filter(
-            Q(name__icontains=query)
-            | Q(description__icontains=query)
-            | Q(dish_type__name__icontains=query)
-            | Q(ingredients__name__icontains=query)
-        ).distinct()
-
-    context = {
-        "dishes": dishes,
-        "query": query,
-    }
-
-    return render(request, "kitchen/dish_list.html", context)
+from kitchen.forms import (
+    CookCreationForm,
+    CookUpdateForm,
+    DishForm,
+    DishTypeForm,
+    IngredientForm,
+)
+from kitchen.models import (
+    Cook,
+    Dish,
+    DishType,
+    Ingredient,
+)
 
 
-@login_required
-def dish_detail(request, pk):
-    """Display detailed information about a dish."""
+class HomeView(generic.TemplateView):
+    template_name = "kitchen/index.html"
 
-    dish = get_object_or_404(
-        Dish.objects.select_related("dish_type").prefetch_related(
-            "ingredients",
-            "cooks",
-        ),
-        pk=pk,
-    )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    context = {
-        "dish": dish,
-    }
-
-    return render(request, "kitchen/dish_detail.html", context)
-
-
-@login_required
-def cook_list(request):
-    """Display all cooks with optional search."""
-
-    query = request.GET.get("q", "").strip()
-
-    cooks = Cook.objects.all()
-
-    if query:
-        cooks = cooks.filter(
-            Q(username__icontains=query)
-            | Q(first_name__icontains=query)
-            | Q(last_name__icontains=query)
+        context.update(
+            {
+                "dish_count": Dish.objects.count(),
+                "dish_type_count": DishType.objects.count(),
+                "cook_count": Cook.objects.count(),
+                "ingredient_count": Ingredient.objects.count(),
+            }
         )
 
-    context = {
-        "cooks": cooks,
-        "query": query,
-    }
-
-    return render(request, "kitchen/cook_list.html", context)
+        return context
 
 
-@login_required
-def ingredient_list(request):
-    """Display all ingredients with optional search."""
-
-    query = request.GET.get("q", "").strip()
-
-    ingredients = Ingredient.objects.all()
-
-    if query:
-        ingredients = ingredients.filter(name__icontains=query)
-
-    context = {
-        "ingredients": ingredients,
-        "query": query,
-    }
-
-    return render(request, "kitchen/ingredient_list.html", context)
+# ==========================
+# DISH CRUD
+# ==========================
 
 
-@login_required
-def dish_type_list(request):
-    """Display all dish types with optional search."""
+class DishListView(LoginRequiredMixin, generic.ListView):
+    model = Dish
+    template_name = "kitchen/dish_list.html"
+    context_object_name = "dishes"
 
-    query = request.GET.get("q", "").strip()
 
-    dish_types = DishType.objects.all()
+class DishDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Dish
+    template_name = "kitchen/dish_detail.html"
+    context_object_name = "dish"
 
-    if query:
-        dish_types = dish_types.filter(name__icontains=query)
 
-    context = {
-        "dish_types": dish_types,
-        "query": query,
-    }
+class DishCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Dish
+    form_class = DishForm
+    template_name = "kitchen/dish_form.html"
+    success_url = reverse_lazy("kitchen:dish-list")
 
-    return render(request, "kitchen/dishtype_list.html", context)
+
+class DishUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Dish
+    form_class = DishForm
+    template_name = "kitchen/dish_form.html"
+    success_url = reverse_lazy("kitchen:dish-list")
+
+
+class DishDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Dish
+    template_name = "kitchen/dish_confirm_delete.html"
+    success_url = reverse_lazy("kitchen:dish-list")
+
+
+# ==========================
+# INGREDIENT CRUD
+# ==========================
+
+
+class IngredientListView(LoginRequiredMixin, generic.ListView):
+    model = Ingredient
+    template_name = "kitchen/ingredient_list.html"
+    context_object_name = "ingredients"
+
+
+class IngredientCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Ingredient
+    form_class = IngredientForm
+    template_name = "kitchen/ingredient_form.html"
+    success_url = reverse_lazy("kitchen:ingredient-list")
+
+
+class IngredientUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Ingredient
+    form_class = IngredientForm
+    template_name = "kitchen/ingredient_form.html"
+    success_url = reverse_lazy("kitchen:ingredient-list")
+
+
+class IngredientDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Ingredient
+    template_name = "kitchen/ingredient_confirm_delete.html"
+    success_url = reverse_lazy("kitchen:ingredient-list")
+
+
+# ==========================
+# DISH TYPE CRUD
+# ==========================
+
+
+class DishTypeListView(LoginRequiredMixin, generic.ListView):
+    model = DishType
+    template_name = "kitchen/dishtype_list.html"
+    context_object_name = "dish_types"
+
+
+class DishTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = DishType
+    form_class = DishTypeForm
+    template_name = "kitchen/dishtype_form.html"
+    success_url = reverse_lazy("kitchen:dish-type-list")
+
+
+class DishTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = DishType
+    form_class = DishTypeForm
+    template_name = "kitchen/dishtype_form.html"
+    success_url = reverse_lazy("kitchen:dish-type-list")
+
+
+class DishTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = DishType
+    template_name = "kitchen/dishtype_confirm_delete.html"
+    success_url = reverse_lazy("kitchen:dish-type-list")
+
+
+# ==========================
+# COOK CRUD
+# ==========================
+
+
+class CookListView(LoginRequiredMixin, generic.ListView):
+    model = Cook
+    template_name = "kitchen/cook_list.html"
+    context_object_name = "cooks"
+
+
+class CookCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Cook
+    form_class = CookCreationForm
+    template_name = "kitchen/cook_form.html"
+    success_url = reverse_lazy("kitchen:cook-list")
+
+
+class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Cook
+    form_class = CookUpdateForm
+    template_name = "kitchen/cook_form.html"
+    success_url = reverse_lazy("kitchen:cook-list")
+
+
+class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Cook
+    template_name = "kitchen/cook_confirm_delete.html"
+    success_url = reverse_lazy("kitchen:cook-list")
